@@ -11,12 +11,13 @@ class DoaViewModel extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final url = Uri.parse('https://doa-doa-api-ahmadramadhan.fly.dev/api');
+    final url = Uri.parse('https://equran.id/api/doa');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
-      final List data = json.decode(response.body);
-      doaList = data.map((json) => Doa.fromJson(json)).toList();
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final List data = responseData['data'] ?? [];
+      doaList = data.map((json) => Doa.fromJson(json as Map<String, dynamic>)).toList();
     }
 
     isLoading = false;
